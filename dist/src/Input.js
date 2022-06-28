@@ -26,7 +26,7 @@ var Input = /** @class */ (function () {
         return (ch.trim() == "");
     };
     Input.prototype.isEnter = function (ch) {
-        return (ch == '\n');
+        return (ch == '\n' || ch == '\r');
     };
     Input.prototype.isDigit = function (ch) {
         return (ch >= '0' && ch <= '9');
