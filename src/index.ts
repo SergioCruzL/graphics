@@ -16,6 +16,8 @@ graphics = canvas.getContext('2d');
 let cv: CvHLines;
 let obj: Obj3D;
 let ang: number=0;
+let pza2Open: boolean =false;
+let pza3Open: boolean =false;
 
 function leerArchivo(e:any) {
   var archivo = e.target.files[0];
@@ -78,59 +80,108 @@ function decrDistFunc() {
   vp(0, 0, 0.5);
 }
 
-function pza1DerFunc() {
-  let af = 10;
+function pza2Abrir() {
+  let tr = -1.0;
  	
-	Rota3D.initRotate( obj.w[139], obj.w[140], af*Math.PI/180);	
-	
-  for (let i = 201; i <= 238; i++){
-    obj.w[i] = Rota3D.rotate(obj.w[i]);
-	}
-	cv.setObj(obj);
-  cv.paint();	
+  if(!pza3Open){
+    if(!pza2Open){
+      for (let i = 191; i <= 216; i++){
+        obj.w[i].y = obj.w[i].y + tr;
+      }
+      cv.setObj(obj);
+      cv.paint();
+      pza2Open=true;	
+    }
+  }else{alert('Quita la llave primero');}
 }
 
-function pza1IzqFunc() {
-  let af = -10;
+function pza2Cerrar() {
+  let tr = 1.0;
  	
-	Rota3D.initRotate( obj.w[139], obj.w[140], af*Math.PI/180);	
-	
-  for (let i = 201; i <= 238; i++){
-    obj.w[i] = Rota3D.rotate(obj.w[i]);
-	}
-	cv.setObj(obj);
-  cv.paint();	
-}
-function pza12DerFunc() {
-  let af = 10;
-  console.log(obj.w[29], obj.w[30], obj.w[6]);
-  Rota3D.initRotate(obj.w[29], obj.w[30], af * Math.PI / 180);
-	
-  for (let i = 101; i <= 140; i++){
-    obj.w[i] = Rota3D.rotate(obj.w[i]);
+	if(pza2Open){
+    for (let i = 191; i <= 216; i++){
+      obj.w[i].y = obj.w[i].y + tr;
+    }
+    cv.setObj(obj);
+    cv.paint();
+    pza2Open=false;	
   }
-  for (let i = 201; i <= 238; i++){
-    obj.w[i] = Rota3D.rotate(obj.w[i]);
-	}
-	cv.setObj(obj);
-  cv.paint();	
+  
 }
 
-function pza12IzqFunc() {
-  let af = -10;
-  console.log(obj.w[29], obj.w[30]);
-	Rota3D.initRotate( obj.w[29], obj.w[30], af*Math.PI/180);	
-	
-  for (let i = 101; i <= 140; i++){
-    obj.w[i] = Rota3D.rotate(obj.w[i]);
-	}
-  for (let i = 201; i <= 238; i++){
-    obj.w[i] = Rota3D.rotate(obj.w[i]);
-	}
-  
-	cv.setObj(obj);
-  cv.paint();	
+function pza3pLlave() {
+  let tr = 0.9;
+  let tr2 = 1;
+  if(!pza3Open){
+    for (let i = 221; i <= 228; i++){
+      obj.w[i].y = obj.w[i].y + tr;
+    }
+    cv.setObj(obj);
+    cv.paint();
+    pza3Open=true;
+
+    let af = 90;
+ 	
+    Rota3D.initRotate( obj.w[259], obj.w[260], af*Math.PI/180);	
+    
+    for (let i = 251; i <= 254; i++){
+      obj.w[i] = Rota3D.rotate(obj.w[i]);
+    }
+    for (let i = 255; i <= 258; i++){
+      obj.w[i] = Rota3D.rotate(obj.w[i]);
+    }
+    cv.setObj(obj);
+    cv.paint();
+  }
+  if(pza2Open){
+    for (let i = 191; i <= 216; i++){
+      obj.w[i].y = obj.w[i].y + tr;
+    }
+    cv.setObj(obj);
+    cv.paint();
+    pza2Open=false;	
+  }
+
+
 }
+
+function pza3qLlave() {
+  let tr = -0.9;
+  if(pza3Open){
+    for (let i = 221; i <= 228; i++){
+      obj.w[i].y = obj.w[i].y + tr;
+    }
+    cv.setObj(obj);
+    cv.paint();
+    pza3Open=false;
+
+    let af = 90;
+ 	
+    //Rota3D.initRotate( obj.w[259], obj.w[260], af*Math.PI/180);	
+    
+    for (let i = 251; i <= 254; i++){
+      obj.w[i] = Rota3D.rotate(obj.w[i]);
+    }
+    for (let i = 255; i <= 258; i++){
+      obj.w[i] = Rota3D.rotate(obj.w[i]);
+    }
+    cv.setObj(obj);
+    cv.paint();
+  }
+}
+
+function pza4Girar() {
+  let af = 90;
+ 	
+	Rota3D.initRotate( obj.w[259], obj.w[260], af*Math.PI/180);	
+	
+  for (let i = 251; i <= 254; i++){
+    obj.w[i] = Rota3D.rotate(obj.w[i]);
+	}
+	cv.setObj(obj);
+  cv.paint();
+}
+
 
 document.getElementById('file-input').addEventListener('change', leerArchivo, false);
 document.getElementById('eyeDown').addEventListener('click', eyeDownFunc, false);
@@ -142,10 +193,10 @@ document.getElementById('decrDist').addEventListener('click', decrDistFunc, fals
 
 
 //movimiento de piezas
-document.getElementById('pza1Izq').addEventListener('click', pza1IzqFunc, false);
-document.getElementById('pza1Der').addEventListener('click', pza1DerFunc, false);
-document.getElementById('pza12Izq').addEventListener('click', pza12IzqFunc, false);
-document.getElementById('pza12Der').addEventListener('click', pza12DerFunc, false);
+document.getElementById('pza2Abrir').addEventListener('click', pza2Abrir, false);
+document.getElementById('pza2Cerrar').addEventListener('click', pza2Cerrar, false);
+document.getElementById('pza3pLlave').addEventListener('click', pza3pLlave, false);
+document.getElementById('pza3qLlave').addEventListener('click', pza3qLlave, false);
 
 let Pix: number, Piy: number;
 let Pfx: number, Pfy: number;
